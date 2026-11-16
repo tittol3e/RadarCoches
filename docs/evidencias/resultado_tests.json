@@ -1,0 +1,63 @@
+{
+  "at": "2026-11-16T18:42:15.715802+00:00",
+  "checks": [
+    {
+      "name": "aplicacion_pipeline",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ]
+    },
+    {
+      "name": "prototipo_recuperado",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\.venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "actividad_ingesta",
+        "-p",
+        "test_ingesta.py",
+        "-v"
+      ]
+    },
+    {
+      "name": "dependencias",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ]
+    },
+    {
+      "name": "compilacion",
+      "exit_code": 0,
+      "command": [
+        "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\.venv\\Scripts\\python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "backend",
+        "actividad_ingesta",
+        "scripts",
+        "tests"
+      ]
+    }
+  ],
+  "excluded": [
+    "Integracion distribuida real: resultados separados en docs/evidencias/distribuido/",
+    "Ollama real: modelo/servidor no verificado",
+    "Este ejecutor utiliza unittest; no invoca pytest"
+  ],
+  "passed": true
+}

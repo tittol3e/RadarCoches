@@ -1,0 +1,13 @@
+{
+  "passed": false,
+  "synthetic": true,
+  "mode": "distributed",
+  "root": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\9c3f48a86d374df6a0f9dfd191217e26",
+  "steps": [],
+  "versions": {
+    "dlt": "1.32.0",
+    "duckdb": "1.5.6",
+    "kafka-python": "2.3.3"
+  },
+  "error": "ConnectTimeout: timed out"
+}

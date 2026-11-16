@@ -1,0 +1,23 @@
+{
+  "real_listings": 0,
+  "lab_revision": 3,
+  "lab_counts": {
+    "ads": 12,
+    "source_ads": 12,
+    "outbox": 14,
+    "history": 14,
+    "consumed": 14,
+    "pending": 0,
+    "price_updates": 2
+  },
+  "ai": "disabled",
+  "sources_connected": 0,
+  "health": {
+    "status": "ok",
+    "local_only": true,
+    "ai_optional": true,
+    "process_id": 14528,
+    "instance_id": "c22e178e-d769-431a-b48c-2aeffe921589"
+  },
+  "passed": true
+}

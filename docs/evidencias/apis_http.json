@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "port": 8771,
+      "source": "demo_a",
+      "changes": 5,
+      "http": true,
+      "passed": true
+    },
+    {
+      "port": 8772,
+      "source": "demo_b",
+      "changes": 5,
+      "http": true,
+      "passed": true
+    }
+  ],
+  "isolated": true,
+  "dlt_executed": false,
+  "kafka_executed": false
+}

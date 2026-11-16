@@ -1,0 +1,8 @@
+{
+  "passed": false,
+  "synthetic": true,
+  "mode": "distributed",
+  "root": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\3a789f0d78bf42a4b6222cd7c308de07",
+  "steps": [],
+  "error": "RuntimeError: Instale requirements-bigdata.txt en .venv; no se ha ejecutado dlt/Kafka/DuckDB"
+}

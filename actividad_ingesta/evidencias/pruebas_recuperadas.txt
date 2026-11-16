@@ -1,0 +1,7 @@
+test_cabecera_invalida_no_crea_base (test_ingesta.IngestaTest.test_cabecera_invalida_no_crea_base) ... ok
+test_rechazos_reejecucion_y_actualizacion (test_ingesta.IngestaTest.test_rechazos_reejecucion_y_actualizacion) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.043s
+
+OK

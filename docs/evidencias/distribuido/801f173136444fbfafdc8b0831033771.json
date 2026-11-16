@@ -1,0 +1,170 @@
+{
+  "passed": true,
+  "synthetic": true,
+  "mode": "distributed",
+  "root": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771",
+  "steps": [
+    {
+      "label": "1000 iniciales",
+      "extraction": {
+        "landing_events_relayed": 1000,
+        "extraction": "dlt",
+        "landing": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\landing.duckdb"
+      },
+      "published": {
+        "published": 1000,
+        "topic": "radarcoches.synthetic.events.v1.c9d065ddaba239f36cda",
+        "transport": "Kafka"
+      },
+      "consumed": {
+        "consumed": 1000,
+        "analytics": {
+          "unique_ads": 1000,
+          "price_sum_centimos": 1343370900,
+          "duckdb": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\analitica.duckdb",
+          "parquet": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\anuncios.parquet"
+        }
+      },
+      "verification": {
+        "passed": true,
+        "unique_ads": 1000,
+        "events": 1000,
+        "parquet_read": true
+      }
+    },
+    {
+      "label": "50 altas",
+      "extraction": {
+        "landing_events_relayed": 1050,
+        "extraction": "dlt",
+        "landing": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\landing.duckdb"
+      },
+      "published": {
+        "published": 50,
+        "topic": "radarcoches.synthetic.events.v1.c9d065ddaba239f36cda",
+        "transport": "Kafka"
+      },
+      "consumed": {
+        "consumed": 50,
+        "analytics": {
+          "unique_ads": 1050,
+          "price_sum_centimos": 1414557300,
+          "duckdb": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\analitica.duckdb",
+          "parquet": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\anuncios.parquet"
+        }
+      },
+      "verification": {
+        "passed": true,
+        "unique_ads": 1050,
+        "events": 1050,
+        "parquet_read": true
+      }
+    },
+    {
+      "label": "20 precios modificados",
+      "extraction": {
+        "landing_events_relayed": 1070,
+        "extraction": "dlt",
+        "landing": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\landing.duckdb"
+      },
+      "published": {
+        "published": 20,
+        "topic": "radarcoches.synthetic.events.v1.c9d065ddaba239f36cda",
+        "transport": "Kafka"
+      },
+      "consumed": {
+        "consumed": 20,
+        "analytics": {
+          "unique_ads": 1050,
+          "price_sum_centimos": 1414057300,
+          "duckdb": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\analitica.duckdb",
+          "parquet": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\anuncios.parquet"
+        }
+      },
+      "verification": {
+        "passed": true,
+        "unique_ads": 1050,
+        "events": 1070,
+        "parquet_read": true
+      }
+    },
+    {
+      "label": "reenvío completo sin duplicados",
+      "extraction": {
+        "landing_events_relayed": 1070,
+        "extraction": "dlt",
+        "landing": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\landing.duckdb"
+      },
+      "published": {
+        "published": 1070,
+        "topic": "radarcoches.synthetic.events.v1.c9d065ddaba239f36cda",
+        "transport": "Kafka"
+      },
+      "consumed": {
+        "consumed": 1070,
+        "analytics": {
+          "unique_ads": 1050,
+          "price_sum_centimos": 1414057300,
+          "duckdb": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\analitica.duckdb",
+          "parquet": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\anuncios.parquet"
+        }
+      },
+      "verification": {
+        "passed": true,
+        "unique_ads": 1050,
+        "events": 1070,
+        "parquet_read": true
+      }
+    }
+  ],
+  "phase": "completed",
+  "versions": {
+    "dlt": "1.32.0",
+    "duckdb": "1.5.6",
+    "kafka-python": "2.3.3"
+  },
+  "connections": {
+    "apis": {
+      "demo_a": "http://127.0.0.1:8771",
+      "demo_b": "http://127.0.0.1:8772"
+    },
+    "kafka": "127.0.0.1:9092"
+  },
+  "kafka": {
+    "throttle_time_ms": 0,
+    "brokers": [
+      {
+        "node_id": 1,
+        "host": "127.0.0.1",
+        "port": 9092,
+        "rack": null
+      }
+    ],
+    "cluster_id": "5L6g3nShT-eMCtK--X86sw",
+    "controller_id": 1,
+    "authorized_operations": [
+      "CREATE",
+      "ALTER",
+      "DESCRIBE",
+      "CLUSTER_ACTION",
+      "DESCRIBE_CONFIGS",
+      "ALTER_CONFIGS",
+      "IDEMPOTENT_WRITE"
+    ]
+  },
+  "replay": {
+    "consumed": 2140,
+    "analytics": {
+      "unique_ads": 1050,
+      "price_sum_centimos": 1414057300,
+      "duckdb": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\analitica.duckdb",
+      "parquet": "C:\\Users\\ia\\Desktop\\INGESTA DATOS\\RadarCoches\\data\\laboratorio_distribuido\\801f173136444fbfafdc8b0831033771\\anuncios.parquet"
+    }
+  },
+  "replay_verification": {
+    "passed": true,
+    "unique_ads": 1050,
+    "events": 1070,
+    "parquet_read": true
+  }
+}

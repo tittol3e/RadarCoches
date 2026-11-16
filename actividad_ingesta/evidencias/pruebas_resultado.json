@@ -1,0 +1,12 @@
+[
+  {
+    "suite": "pipeline",
+    "exit_code": 0,
+    "seconds": 15.826
+  },
+  {
+    "suite": "recuperadas",
+    "exit_code": 0,
+    "seconds": 0.172
+  }
+]

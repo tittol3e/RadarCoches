@@ -1,0 +1,67 @@
+C:\Users\ia\Desktop\INGESTA DATOS\RadarCoches\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_ai_error_persists_data_no_fallback (test_application.ApplicationTests.test_ai_error_persists_data_no_fallback) ... ok
+test_ai_paid_and_external_disabled (test_application.ApplicationTests.test_ai_paid_and_external_disabled) ... ok
+test_assessment_snapshot_persists_and_ficha_exposes_pending_costs (test_application.ApplicationTests.test_assessment_snapshot_persists_and_ficha_exposes_pending_costs) ... ok
+test_backup_restore_real_database (test_application.ApplicationTests.test_backup_restore_real_database) ... ok
+test_canonical_tracking_removed_query_identity_retained (test_application.ApplicationTests.test_canonical_tracking_removed_query_identity_retained) ... ok
+test_catalog_dependency_and_manual_vehicle (test_application.ApplicationTests.test_catalog_dependency_and_manual_vehicle) ... ok
+test_comparable_dedup_observation_and_mileage_evidence (test_application.ApplicationTests.test_comparable_dedup_observation_and_mileage_evidence) ... ok
+test_csv_json_import_and_atomic_rollback (test_application.ApplicationTests.test_csv_json_import_and_atomic_rollback) ... ok
+test_duplicate_safe_and_distinct_vehicles (test_application.ApplicationTests.test_duplicate_safe_and_distinct_vehicles) ... ok
+test_export_csv_json_and_formula_injection (test_application.ApplicationTests.test_export_csv_json_and_formula_injection) ... ok
+test_favorite_notes_patch (test_application.ApplicationTests.test_favorite_notes_patch) ... ok
+test_financial_example_cost_and_target_change (test_application.ApplicationTests.test_financial_example_cost_and_target_change) ... ok
+test_insufficient_comparables_no_value (test_application.ApplicationTests.test_insufficient_comparables_no_value) ... ok
+test_invalid_input_and_urls (test_application.ApplicationTests.test_invalid_input_and_urls) ... ok
+test_lab_never_real_radar (test_application.ApplicationTests.test_lab_never_real_radar) ... ok
+test_local_origin_host_content_and_size (test_application.ApplicationTests.test_local_origin_host_content_and_size) ... ok
+test_manual_persistence_restart_and_provenance (test_application.ApplicationTests.test_manual_persistence_restart_and_provenance) ... ok
+test_missing_cost_not_silently_zero (test_application.ApplicationTests.test_missing_cost_not_silently_zero) ... ok
+test_operations_persist_only_sold_profit (test_application.ApplicationTests.test_operations_persist_only_sold_profit) ... ok
+test_parts_compatibility_and_confirmed_costs (test_application.ApplicationTests.test_parts_compatibility_and_confirmed_costs) ... ok
+test_price_history_and_filter (test_application.ApplicationTests.test_price_history_and_filter) ... ok
+test_sale_requires_actual_purchase_and_date (test_application.ApplicationTests.test_sale_requires_actual_purchase_and_date) ... ok
+test_sql_injection_does_not_modify_data (test_application.ApplicationTests.test_sql_injection_does_not_modify_data) ... ok
+test_start_without_ai_and_empty_real_dashboard (test_application.ApplicationTests.test_start_without_ai_and_empty_real_dashboard) ... ok
+test_static_ui_assets_and_security_headers (test_application.ApplicationTests.test_static_ui_assets_and_security_headers) ... ok
+test_tax_inverse_floor_and_no_incompatible_tax (test_application.ApplicationTests.test_tax_inverse_floor_and_no_incompatible_tax) ... ok
+test_verification_requires_real_date (test_application.ApplicationTests.test_verification_requires_real_date) ... ok
+test_withdrawn_stays_withdrawn_after_import_refresh (test_application.ApplicationTests.test_withdrawn_stays_withdrawn_after_import_refresh) ... ok
+test_workshop_no_invented_quotes_critical (test_application.ApplicationTests.test_workshop_no_invented_quotes_critical) ... ok
+test_export_failure_does_not_ack_and_replay_is_idempotent (test_distributed_checkpoint.CheckpointTest.test_export_failure_does_not_ack_and_replay_is_idempotent) ... ok
+test_export_precedes_each_batched_commit (test_distributed_checkpoint.CheckpointTest.test_export_precedes_each_batched_commit) ... ok
+test_invalid_batch_is_rejected (test_distributed_checkpoint.CheckpointTest.test_invalid_batch_is_rejected) ... ok
+test_runs_use_separate_topics_but_restarts_keep_topic (test_distributed_checkpoint.CheckpointTest.test_runs_use_separate_topics_but_restarts_keep_topic) ... ok
+test_empty_port_check_does_not_make_http_request (test_distributed_startup.DistributedStartupTest.test_empty_port_check_does_not_make_http_request) ... ok
+test_occupied_port_is_rejected_and_service_is_preserved (test_distributed_startup.DistributedStartupTest.test_occupied_port_is_rejected_and_service_is_preserved) ... ok
+test_starting_api_retries_connect_timeout_then_checks_identity (test_distributed_startup.DistributedStartupTest.test_starting_api_retries_connect_timeout_then_checks_identity) ... ok
+test_wrong_service_is_not_accepted (test_distributed_startup.DistributedStartupTest.test_wrong_service_is_not_accepted) ... ok
+test_analytics_query_is_whitelisted_before_dependency_access (test_pipeline.PipelineTest.test_analytics_query_is_whitelisted_before_dependency_access) ... ok
+test_api_date_filter (test_pipeline.PipelineTest.test_api_date_filter) ... ok
+test_api_input_validation (test_pipeline.PipelineTest.test_api_input_validation) ... ok
+test_api_pagination_and_source_isolation (test_pipeline.PipelineTest.test_api_pagination_and_source_isolation) ... ok
+test_authorized_api_urls (test_pipeline.PipelineTest.test_authorized_api_urls) ... ok
+test_change_snapshot_survives_new_events_between_pages (test_pipeline.PipelineTest.test_change_snapshot_survives_new_events_between_pages) ... ok
+test_conflicting_same_version_is_rejected (test_pipeline.PipelineTest.test_conflicting_same_version_is_rejected) ... ok
+test_consumer_groups_do_not_share_offsets_across_databases (test_pipeline.PipelineTest.test_consumer_groups_do_not_share_offsets_across_databases) ... ok
+test_consumer_interruption_resume_and_persistent_state (test_pipeline.PipelineTest.test_consumer_interruption_resume_and_persistent_state) ... ok
+test_external_error_preserves_cursor_and_outbox (test_pipeline.PipelineTest.test_external_error_preserves_cursor_and_outbox) ... ok
+test_generator_deterministic_coherent (test_pipeline.PipelineTest.test_generator_deterministic_coherent) ... ok
+test_interruption_after_page_resumes_without_loss (test_pipeline.PipelineTest.test_interruption_after_page_resumes_without_loss) ... ok
+test_late_event_preserves_complete_history_without_state_regression (test_pipeline.PipelineTest.test_late_event_preserves_complete_history_without_state_regression) ... ok
+test_optional_analytics_endpoint_returns_clear_503_and_rejects_sql (test_pipeline.PipelineTest.test_optional_analytics_endpoint_returns_clear_503_and_rejects_sql) ... ok
+test_replayed_and_out_of_order_events (test_pipeline.PipelineTest.test_replayed_and_out_of_order_events) ... ok
+test_revision_repeated_does_not_duplicate (test_pipeline.PipelineTest.test_revision_repeated_does_not_duplicate) ... ok
+test_revision_sequence_validation (test_pipeline.PipelineTest.test_revision_sequence_validation) ... ok
+test_revisions_10_12_12_12_with_verified_updates (test_pipeline.PipelineTest.test_revisions_10_12_12_12_with_verified_updates) ... ok
+test_same_id_different_source_remains_distinct (test_pipeline.PipelineTest.test_same_id_different_source_remains_distinct) ... ok
+test_schema_rejects_real_data_and_tampered_events (test_pipeline.PipelineTest.test_schema_rejects_real_data_and_tampered_events) ... ok
+test_source_preparation_does_not_consume_local_events (test_pipeline.PipelineTest.test_source_preparation_does_not_consume_local_events) ... ok
+test_tampered_extract_does_not_commit_cursor (test_pipeline.PipelineTest.test_tampered_extract_does_not_commit_cursor) ... ok
+test_volume_1000_50_20 (test_pipeline.PipelineTest.test_volume_1000_50_20) ... ok
+
+----------------------------------------------------------------------
+Ran 60 tests in 17.627s
+
+OK

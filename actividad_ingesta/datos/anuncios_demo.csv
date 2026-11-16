@@ -1,0 +1,6 @@
+id,marca,modelo,anio,precio_eur,kilometros
+DEMO-001,Seat,Ibiza,2020,12500.00,65000
+DEMO-002,Toyota,Corolla,2022,21990.50,32000
+DEMO-001,Seat,Ibiza,2020,12500.00,65000
+DEMO-003,Renault,Clio,2019,-100.00,80000
+DEMO-004,Kia,Ceed,2021,16750.00,41000

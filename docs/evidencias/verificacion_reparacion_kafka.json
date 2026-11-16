@@ -1,0 +1,216 @@
+[
+  {
+    "scenario": "revisions",
+    "passed": true,
+    "evidence": "docs\\evidencias\\distribuido\\9fa92b8d3ee9401cbee7a5b19110b1ae.json",
+    "counts": {
+      "ads": 12,
+      "history": 14,
+      "consumed": 14
+    },
+    "prices": [
+      [
+        "demo_a",
+        "DEMO-demo_a-000001",
+        803200,
+        793200,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000001",
+        2430100,
+        2420100,
+        2
+      ]
+    ],
+    "parquet_rows": 12,
+    "offsets": {
+      "radarcoches-synthetic-6b47ff6d2d2e700bd9b3": [
+        {
+          "topic": "radarcoches.synthetic.events.v1.6b47ff6d2d2e700bd9b3",
+          "partition": 0,
+          "offset": 28
+        }
+      ],
+      "radar-replay-9fa92b8d3ee9401cbee7a5b19110b1ae": [
+        {
+          "topic": "radarcoches.synthetic.events.v1.6b47ff6d2d2e700bd9b3",
+          "partition": 0,
+          "offset": 28
+        }
+      ]
+    },
+    "replayed_messages": 28
+  },
+  {
+    "scenario": "volume",
+    "passed": true,
+    "evidence": "docs\\evidencias\\distribuido\\801f173136444fbfafdc8b0831033771.json",
+    "counts": {
+      "ads": 1050,
+      "history": 1070,
+      "consumed": 1070
+    },
+    "prices": [
+      [
+        "demo_a",
+        "DEMO-demo_a-000001",
+        1811700,
+        1786700,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000002",
+        676600,
+        651600,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000003",
+        1596000,
+        1571000,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000004",
+        1978200,
+        1953200,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000005",
+        2428500,
+        2403500,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000006",
+        150300,
+        125300,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000007",
+        350300,
+        325300,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000008",
+        1077000,
+        1052000,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000009",
+        2133900,
+        2108900,
+        2
+      ],
+      [
+        "demo_a",
+        "DEMO-demo_a-000010",
+        1633700,
+        1608700,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000001",
+        2212400,
+        2187400,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000002",
+        1233300,
+        1208300,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000003",
+        1606100,
+        1581100,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000004",
+        1034900,
+        1009900,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000005",
+        1916500,
+        1891500,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000006",
+        1500400,
+        1475400,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000007",
+        1015100,
+        990100,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000008",
+        1192000,
+        1167000,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000009",
+        1608100,
+        1583100,
+        2
+      ],
+      [
+        "demo_b",
+        "DEMO-demo_b-000010",
+        2435800,
+        2410800,
+        2
+      ]
+    ],
+    "parquet_rows": 1050,
+    "offsets": {
+      "radarcoches-synthetic-c9d065ddaba239f36cda": [
+        {
+          "topic": "radarcoches.synthetic.events.v1.c9d065ddaba239f36cda",
+          "partition": 0,
+          "offset": 2140
+        }
+      ],
+      "radar-replay-801f173136444fbfafdc8b0831033771": [
+        {
+          "topic": "radarcoches.synthetic.events.v1.c9d065ddaba239f36cda",
+          "partition": 0,
+          "offset": 2140
+        }
+      ]
+    },
+    "replayed_messages": 2140
+  }
+]
