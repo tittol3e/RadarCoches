@@ -162,8 +162,9 @@ class Storage:
     def summary(self):
         with self.db() as db:
             counts = {name: db.execute(f"SELECT COUNT(*) FROM {name}").fetchone()[0]
-                      for name in ("ads", "source_ads", "outbox", "history", "consumed")}
+                      for name in ("ads", "source_ads", "source_changes", "outbox", "history", "consumed")}
             counts["pending"] = db.execute("SELECT COUNT(*) FROM outbox WHERE delivered=0").fetchone()[0]
+            counts["delivered"] = counts["outbox"] - counts["pending"]
             counts["price_updates"] = db.execute("SELECT COUNT(*) FROM history WHERE old_price IS NOT NULL AND old_price!=new_price").fetchone()[0]
             events = [json.loads(r[0]) for r in db.execute("SELECT payload FROM outbox ORDER BY rowid DESC LIMIT 30")]
             runs = [dict(r) for r in db.execute("SELECT * FROM runs ORDER BY id DESC LIMIT 20")]
@@ -171,3 +172,17 @@ class Storage:
                 row["details"] = json.loads(row["details"]) if row["details"] else None
             return dict(counts=counts, events=events, runs=runs,
                         cursors={r[0]: r[1] for r in db.execute("SELECT source,seq FROM cursors")})
+
+    def history(self):
+        with self.db() as db:
+            rows = db.execute(
+                "SELECT event_id,source,id,version,old_price,new_price,payload "
+                "FROM history ORDER BY source,id,version LIMIT 100"
+            )
+            result = []
+            for row in rows:
+                entry = dict(row)
+                event = json.loads(entry.pop("payload"))
+                entry.update(kind=event["kind"], ad=event["ad"])
+                result.append(entry)
+            return result

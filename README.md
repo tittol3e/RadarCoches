@@ -9,18 +9,16 @@ de dependencias que aparece más abajo es histórico. Causa y evidencias:
 
 Aplicación web personal para analizar compraventa de vehículos con evidencias, persistencia local y cálculo financiero independiente de IA. Reconstruida en Windows el 16/11/2026. Referencia Cádiz; admite cualquier provincia mediante entrada libre.
 
-**Estado:** aplicación local utilizable y probada; integración Big Data distribuida pendiente de instalar dependencias y ejecutar Kafka real. No se declara el proyecto completo hasta superar esa integración. No hay conexión autorizada al inventario de portales. Véanse [ESTADO_PROYECTO.md](ESTADO_PROYECTO.md), [INFORME_FINAL.md](INFORME_FINAL.md) y [CONTINUAR_CODEX.md](CONTINUAR_CODEX.md).
+**Estado a 19/11/2026:** el laboratorio incluye prácticas SQLite aisladas con anuncios e historial, y un visor de informes de la integración distribuida con sus archivos DuckDB y Parquet. Consulta el [informe técnico de la auditoría](INFORME_TECNICO_AUDITORIA.md) para ver las pruebas recientes.
 
 ## Arranque en este equipo
 
-Para entender y presentar el trabajo, abre el **Laboratorio de datos** y sigue
-la práctica guiada de cuatro pasos. Explicación y guion de demostración:
-[GUIA_DEMOSTRACION.md](GUIA_DEMOSTRACION.md).
+Para presentar el trabajo, abre **Laboratorio de datos**, pulsa **Nueva práctica limpia** y sigue los pasos de la [guía para el profesor](GUIA_PRESENTACION_PROFESOR.md).
 
 Doble clic en `iniciar_radarcoches.bat`, o desde PowerShell:
 
 ```powershell
-cd "C:\Users\ia\Desktop\INGESTA DATOS\RadarCoches"
+cd "C:\ruta\RadarCoches"
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\iniciar_radarcoches.ps1
 ```
 
@@ -36,7 +34,7 @@ Web: **http://127.0.0.1:8765**. Solo localhost, sin registro, Docker ni claves. 
 | Rentabilidad | Costes desglosados, impuesto manual/proporcional, base fiscal mínima y precio máximo inverso con Decimal |
 | Taller y piezas | Extracción de daños declarados, edición, presupuestos y alternativas; confirmación y compatibilidad explícitas |
 | Mis operaciones | Etapas, ofertas, inspecciones, gastos previstos/reales, compras/ventas e historial persistente |
-| Laboratorio | APIs sintéticas, revisiones, volumen, eventos, cursores, recuperación y transporte local identificado |
+| Laboratorio | Prácticas SQLite con respuestas de las APIs, anuncios, diferencias de precio y replay. Visor de informes, DuckDB y Parquet de la prueba con Kafka |
 | Configuración | IA opcional Ollama local, contadores, exportaciones y copias/restauración |
 
 No se añaden coches ficticios al Radar. La aplicación comienza sin anuncios. Los precios desconocidos permanecen vacíos; una URL importada no implica verificación remota. Tres comparables comprobados y suficientemente similares son el mínimo para calcular un rango, sin garantía de venta. Una estimación nunca constituye beneficio realizado.
@@ -50,13 +48,13 @@ No se añaden coches ficticios al Radar. La aplicación comienza sin anuncios. L
 .\demo_ingesta.ps1 -Volumen
 ```
 
-Las pruebas escriben datos temporales separados. La demo académica local produce 10 → 12 → 12 → 12 y volumen de 1.050 únicos con 20 actualizaciones. **No acredita Kafka, dlt ni DuckDB**: el modo local usa outbox SQLite y APIs en proceso. Hay adaptadores distribuidos reales escritos y configuración Compose; falta ejecutarlos con sus dependencias. Informe: [docs/INFORME_INGESTA.md](docs/INFORME_INGESTA.md).
+Las pruebas escriben datos temporales separados. La demo académica local produce 10 → 12 → 12 → 12 y el ejercicio de volumen espera 1.050 únicos con 20 actualizaciones. La integración con dlt y Kafka se ejecuta por separado y genera su propio informe. Sigue los pasos de la [guía para el profesor](GUIA_PRESENTACION_PROFESOR.md).
 
 ## Dependencias
 
 Python 3.12, FastAPI, Uvicorn, httpx y python-dotenv. Instalados en `.venv`, sin cambios globales. Versiones principales en `requirements.txt`; entorno completo probado en `requirements-lock.txt`. Node no necesario. Para una instalación nueva: [INSTALACION_WINDOWS.md](INSTALACION_WINDOWS.md).
 
-Para pytest y pruebas de navegador: `requirements-dev.txt`. En esta sesión se ejecuta unittest por falta de pytest en la caché; los tests también son descubribles por pytest cuando se instale. Big Data opcional: `actividad_ingesta/requirements-bigdata.txt`; sus rangos todavía no equivalen a un lock validado.
+Para pytest y las pruebas de navegador usa `requirements-dev.txt`. Los requisitos de la integración distribuida se detallan en `actividad_ingesta/requirements-bigdata.txt`.
 
 ## Archivos y privacidad
 

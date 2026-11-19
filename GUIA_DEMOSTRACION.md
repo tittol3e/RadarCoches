@@ -6,20 +6,11 @@ son inventados y están separados de los coches que añadas al Radar.
 
 ## Demostración en la aplicación
 
-1. Arranca `iniciar_radarcoches.bat` y abre **Laboratorio de datos**.
-2. Lee la explicación inicial: leer → identificar → guardar → consultar.
-3. Ejecuta los cuatro pasos de la práctica guiada. El siguiente paso se habilita
-   al terminar el anterior. Los resultados se conservan al cerrar la aplicación.
-4. Comprueba los totales: **10 → 12 → 12 → 12**. El tercer paso cambia dos precios.
-5. Repite un paso: no aparecen anuncios duplicados. Repetir un paso anterior no
-   retrocede los datos ni restaura precios antiguos.
-6. Despliega los anuncios y eventos para ver identificadores, precios y versiones.
-7. Ejecuta **Comprobar con 1.000 anuncios**. Deben quedar **1.050 únicos** y
-   **20 precios actualizados**. Esta prueba usa un espacio separado.
-
-Si los cuatro pasos ya aparecen completados, se trata de una ejecución anterior
-guardada. Puedes repetirlos para demostrar la ausencia de duplicados; no volverán
-a aparecer las altas como nuevas.
+Abre **Laboratorio de datos** y pulsa **Nueva práctica limpia**. La aplicación
+separa la lectura de las APIs, la extracción y el consumo en SQLite. Después puedes
+incorporar las altas, ver los cambios de precio y ejecutar el replay. Cada práctica
+permanece en el selector. Consulta los pasos y el guion actualizado en la
+[guía de presentación para el profesor](GUIA_PRESENTACION_PROFESOR.md).
 
 ## Qué decir al presentarlo
 

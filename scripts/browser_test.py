@@ -3,11 +3,13 @@ import base64
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
 import time
 import urllib.request
+from uuid import uuid4
 
 import websocket
 
@@ -15,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = 'http://127.0.0.1:8876'
 DEBUG = 'http://127.0.0.1:9223'
 EDGE = Path(r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe')
-EVIDENCE = ROOT / 'docs' / 'evidencias'
+EVIDENCE = ROOT / 'docs' / 'evidencias' / f'navegador-{uuid4().hex}'
 
 
 class CDP:
@@ -73,8 +75,10 @@ class CDP:
             f.requestSubmit(); return true;
         })()''' % (json.dumps(text), json.dumps(values)))
 
-    def screenshot(self, name):
-        self.evaluate('document.querySelector("#toast").hidden=true;scrollTo(0,0)')
+    def screenshot(self, name, scroll_top=True):
+        self.evaluate('document.querySelector("#toast").hidden=true')
+        if scroll_top:
+            self.evaluate('scrollTo(0,0)')
         value = self.call('Page.captureScreenshot', dict(format='png', captureBeyondViewport=False))
         (EVIDENCE / name).write_bytes(base64.b64decode(value['data']))
 
@@ -106,6 +110,15 @@ def main():
         with temporary as temp:
             temp = Path(temp)
             env = dict(os.environ, RADAR_DATA_DIR=str(temp / 'data'))
+            distributed_id = os.environ.get('RADAR_BROWSER_DISTRIBUTED_RUN')
+            if distributed_id:
+                if len(distributed_id) != 32 or any(c not in '0123456789abcdef' for c in distributed_id):
+                    raise ValueError('RADAR_BROWSER_DISTRIBUTED_RUN debe contener un identificador de ejecución')
+                sample = ROOT / 'data' / 'laboratorio_distribuido' / distributed_id
+                isolated = temp / 'data' / 'laboratorio_distribuido' / distributed_id
+                isolated.mkdir(parents=True)
+                for filename in ('analitica.duckdb', 'anuncios.parquet'):
+                    shutil.copyfile(sample / filename, isolated / filename)
             with (EVIDENCE / 'navegador-procesos.log').open('w', encoding='utf-8') as log:
                 server = subprocess.Popen([sys.executable, '-m', 'uvicorn', 'backend.main:app', '--host', '127.0.0.1', '--port', '8876'], cwd=ROOT, env=env, stdout=log, stderr=log, creationflags=subprocess.CREATE_NO_WINDOW)
                 wait_http(BASE + '/api/health', server)
@@ -203,24 +216,60 @@ def main():
 
 
                 cdp.route('laboratorio', 'Laboratorio de datos')
-                assert cdp.evaluate('document.querySelector("main").textContent.includes("Para qué sirve la ingesta")')
-                assert cdp.evaluate('[...document.querySelectorAll("main button")].filter(b=>b.textContent==="Ejecutar paso" && !b.disabled).length === 1')
-                for revision, total in enumerate((10, 12, 12, 12)):
-                    cdp.evaluate('[...document.querySelectorAll("main button")].find(b=>b.textContent==="Ejecutar paso" && !b.disabled).click()')
-                    cdp.wait('document.querySelector("main").textContent.includes("Paso terminado: '+str(total)+' anuncios guardados") && ![...document.querySelectorAll("main button")].some(b=>b.textContent==="Repetir paso" && b.disabled)')
-                    assert get_json(BASE+'/api/lab')['revision'] == revision
-                cdp.evaluate('[...document.querySelectorAll("main button")].find(b=>b.textContent==="Repetir paso").click()')
-                cdp.wait('document.querySelector("main").textContent.includes("La lectura no ha añadido duplicados")')
-                assert get_json(BASE+'/api/lab')['counts']['ads'] == 12
-                assert get_json(BASE+'/api/lab')['counts']['price_updates'] == 2
+                def click_lab(label):
+                    expression = '[...document.querySelectorAll("main button")].find(b => b.textContent === ' + json.dumps(label) + ' && !b.disabled)'
+                    cdp.wait('Boolean(' + expression + ')')
+                    cdp.evaluate(expression + '.click()')
+
+                click_lab('Nueva práctica limpia')
+                click_lab('Leer las APIs')
+                cdp.wait('document.querySelector("main").textContent.split("/health · HTTP 200 · ok").length === 3')
+                practice_id = cdp.evaluate('document.querySelector(".lab-page select").value')
+                practice_url = BASE + '/api/lab/practices/' + practice_id
+                for button, total in [('Extraer los eventos', 0), ('Procesar y almacenar', 10),
+                                      ('Incorporar anuncios nuevos', 12), ('Actualizar precios', 12),
+                                      ('Reprocesar y verificar', 12)]:
+                    click_lab(button)
+                    cdp.wait('[...document.querySelectorAll("main [role=status] .good")].some(n => n.textContent.includes("Paso terminado")) === true')
+                    assert get_json(practice_url)['counts']['ads'] == total
+                cdp.wait('document.querySelector("main").textContent.includes("14 eventos recibidos")')
+                assert get_json(practice_url)['counts']['price_updates'] == 2
+                assert cdp.evaluate('document.querySelector("main").textContent.includes("DEMO-demo_a-000006")')
                 cdp.screenshot('navegador-laboratorio-guiado.png')
-                checks.append('Guided ingestion: ordered steps, 10/12/12/12, two prices and repeat without duplicates')
-                cdp.evaluate('[...document.querySelectorAll("main button")].find(b=>b.textContent==="Comprobar con 1.000 anuncios").click()')
+                click_lab('Precios')
+                cdp.wait('[...document.querySelectorAll("main h3")].find(h => h.textContent === "Cambios de precio").getBoundingClientRect().top < 100')
+                cdp.screenshot('navegador-cambios-precio.png', scroll_top=False)
+                checks.append('SQLite demonstration: source responses, extracted queue, 10/12/12/12, price changes and replay')
+                cdp.evaluate('[...document.querySelectorAll("summary")].find(s => s.textContent === "Prueba local de volumen").click()')
+                click_lab('Comprobar con 1.000 anuncios')
                 cdp.wait('document.querySelector("main").textContent.includes("Prueba de volumen superada")', timeout=60)
-                assert get_json(BASE+'/api/lab')['counts']['ads'] == 12
-                checks.append('Guided volume test passes and preserves the four-step exercise')
+                click_lab('Nueva práctica limpia')
+                assert get_json(practice_url)['counts']['ads'] == 12
+                checks.append('Volume and fresh practice preserve the previous practice')
+
+                if distributed_id:
+                    cdp.evaluate('''(() => {
+                        const select = document.querySelector('[aria-label="Evidencia histórica distribuida"]');
+                        select.value = %s;
+                        select.dispatchEvent(new Event('change'));
+                    })()''' % json.dumps(distributed_id))
+                    cdp.wait('document.querySelector("main").textContent.includes("Parquet · Anuncios finales")')
+                    assert cdp.evaluate('document.querySelector("main").textContent.split("Mostrando 12 de 12 anuncios.").length === 3')
+                    assert cdp.evaluate('document.querySelector("main").textContent.includes("28 mensajes recibidos")')
+                    cdp.evaluate('[...document.querySelectorAll("main h3")].find(h => h.textContent === "DuckDB · Anuncios finales").scrollIntoView()')
+                    cdp.wait('[...document.querySelectorAll("main h3")].find(h => h.textContent === "DuckDB · Anuncios finales").getBoundingClientRect().top < 100')
+                    cdp.screenshot('navegador-resultados-distribuidos.png', scroll_top=False)
+                    checks.append('Distributed viewer reads the 12 actual DuckDB and Parquet rows and the historical Kafka report')
 
                 cdp.call('Emulation.setDeviceMetricsOverride', dict(width=390, height=844, deviceScaleFactor=1, mobile=True))
+                cdp.evaluate('''(() => {
+                    const select = document.querySelector('.lab-page select');
+                    select.value = %s;
+                    select.dispatchEvent(new Event('change'));
+                })()''' % json.dumps(practice_id))
+                cdp.wait('document.querySelector("main").textContent.includes("14 eventos recibidos")')
+                assert cdp.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
+                checks.append('Populated mobile demonstration has no page overflow at 390px')
                 cdp.route('dashboard', 'Tu radar, con los pies en el suelo')
                 assert cdp.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
                 cdp.screenshot('navegador-movil.png')

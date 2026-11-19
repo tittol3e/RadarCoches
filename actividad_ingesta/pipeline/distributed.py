@@ -116,6 +116,8 @@ def _dlt_extract(root, urls):
                     until = data["highwater"] if until is None else until
                     for raw in data["items"]:
                         event = Change.model_validate(raw).validated().model_dump(mode="json")
+                        if event["source"] != source or not since < event["seq"] <= until:
+                            raise ValueError("Evento fuera de la fuente o del intervalo solicitado")
                         yield dict(event_id=event["event_id"], seq=event["seq"], source=source,
                                    payload=json.dumps(event, ensure_ascii=False))
                     if not data.get("next_page"):
@@ -203,14 +205,16 @@ def consume(root, bootstrap="127.0.0.1:9092", group=None, max_events=100000, exp
                                    session_timeout_ms=10000, value_deserializer=lambda x: json.loads(x))
     seen = 0
     offsets = {}
+    analytics = None
 
     def checkpoint():
         # SQLite ya contiene cada evento; generar la proyección antes del ACK.
         # Si falla la exportación o el commit, el replay es idempotente.
-        export_analytics(root)
+        analytics = export_analytics(root)
         if offsets:
             consumer.commit(dict(offsets))
             offsets.clear()
+        return analytics
 
     try:
         for record in consumer:
@@ -222,13 +226,14 @@ def consume(root, bootstrap="127.0.0.1:9092", group=None, max_events=100000, exp
             offsets[TopicPartition(record.topic, record.partition)] = offset
             seen += 1
             if seen % export_every == 0:
-                checkpoint()
+                analytics = checkpoint()
             if seen >= max_events:
                 break
-        checkpoint()
+        if offsets or analytics is None:
+            analytics = checkpoint()
     finally:
         consumer.close(autocommit=False)
-    return dict(consumed=seen, analytics=export_analytics(root))
+    return dict(consumed=seen, analytics=analytics)
 
 
 def query_analytics(root, query="counts"):

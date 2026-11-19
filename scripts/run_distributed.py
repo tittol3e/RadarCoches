@@ -88,10 +88,15 @@ def verify(root, expected):
     if len(source) != expected or source != actual or len(history) != events or pending:
         raise AssertionError('Anuncios, historial o eventos pendientes no coinciden con las fuentes')
     with duckdb_module().connect(str(root / 'analitica.duckdb'), read_only=True) as db:
-        analytical = db.execute('SELECT source,id,version,payload FROM anuncios ORDER BY source,id').fetchall()
-        parquet = db.execute('SELECT source,id,version,payload FROM read_parquet(?) ORDER BY source,id', [str(root / 'anuncios.parquet')]).fetchall()
+        columns = 'source,id,version,payload,marca,modelo,anio,kilometros,precio_centimos'
+        analytical = db.execute(f'SELECT {columns} FROM anuncios ORDER BY source,id').fetchall()
+        parquet = db.execute(f'SELECT {columns} FROM read_parquet(?) ORDER BY source,id', [str(root / 'anuncios.parquet')]).fetchall()
         analytical_history = db.execute('SELECT event_id,source,id,version,old_price,new_price,payload FROM historial ORDER BY event_id').fetchall()
-    if actual != analytical or actual != parquet or history != analytical_history:
+    enriched = []
+    for row in actual:
+        ad = json.loads(row[3])
+        enriched.append(row + tuple(ad[key] for key in ('marca', 'modelo', 'anio', 'kilometros', 'precio_centimos')))
+    if enriched != analytical or analytical != parquet or history != analytical_history:
         raise AssertionError('DuckDB, Parquet o historial difieren del estado consumido')
     return dict(passed=True, unique_ads=len(actual), events=events, parquet_read=True)
 
@@ -108,7 +113,8 @@ def main(argv=None):
     root = ROOT / 'data' / 'laboratorio_distribuido' / run_id
     evidence = ROOT / 'docs' / 'evidencias' / 'distribuido'
     evidence.mkdir(parents=True, exist_ok=True)
-    report = dict(passed=False, synthetic=True, mode='distributed', root=str(root), steps=[])
+    report = dict(passed=False, synthetic=True, mode='distributed', root=str(root), steps=[],
+                  scenario='volume' if args.volume else 'revisions')
     children, logs = [], []
     try:
         report['phase'] = 'dependencies'
@@ -133,7 +139,7 @@ def main(argv=None):
         wait_for_apis(urls, children)
         lab = Lab(root)
 
-        def cycle(label, expected):
+        def cycle(label, expected, expected_events, expected_messages):
             print(f'{label}: extracción, publicación y consumo…', flush=True)
             step = dict(label=label)
             report['steps'].append(step)
@@ -144,37 +150,45 @@ def main(argv=None):
             report['phase'] = label + ': Kafka consume 127.0.0.1:9092'
             step['consumed'] = consume(root)
             report['phase'] = label + ': verify DuckDB/Parquet'
-            step['verification'] = verify(root, expected)
+            verified = verify(root, expected)
+            if (step['published']['published'], step['consumed']['consumed']) != (expected_messages,) * 2:
+                raise AssertionError('Mensajes enviados o recibidos distintos de los esperados')
+            if step['extraction']['landing_events_relayed'] != expected_events or verified['events'] != expected_events:
+                raise AssertionError('El total de eventos de landing o del consumidor no coincide')
+            step['verification'] = verified
 
         if args.volume:
             for source in urls:
                 for n in range(1, 501):
                     lab.store.put_source(generate(source, n, seed=73))
-            cycle('1000 iniciales', 1000)
+            cycle('1000 iniciales', 1000, 1000, 1000)
             for source in urls:
                 for n in range(501, 526):
                     lab.store.put_source(generate(source, n, seed=73))
-            cycle('50 altas', 1050)
+            cycle('50 altas', 1050, 1050, 50)
             for source in urls:
                 for n in range(1, 11):
                     ad = generate(source, n, seed=73)
                     ad.update(precio_centimos=ad['precio_centimos'] - 25000, version_evento=2,
                               actualizado=(BASE_TIME + timedelta(days=2)).isoformat())
                     lab.store.put_source(ad)
-            cycle('20 precios modificados', 1050)
+            cycle('20 precios modificados', 1050, 1070, 20)
         else:
-            for revision, expected in enumerate((10, 12, 12, 12)):
+            for revision, (expected, events, messages) in enumerate(((10, 10, 10), (12, 12, 2), (12, 14, 2), (12, 14, 0))):
                 lab.prepare_revision(revision)
-                cycle(f'revisión {revision}', expected)
+                cycle(f'revisión {revision}', expected, events, messages)
         expected = 1050 if args.volume else 12
+        events = 1070 if args.volume else 14
         if lab.store.summary()['counts']['price_updates'] != (20 if args.volume else 2):
             raise AssertionError('Número de cambios de precio incorrecto')
         # Simular reenvío tras pérdida de ACK, manteniendo los mismos eventos.
         with lab.store.db() as db:
             db.execute('UPDATE outbox SET kafka_sent=0')
-        cycle('reenvío completo sin duplicados', expected)
+        cycle('reenvío completo sin duplicados', expected, events, events)
         report['phase'] = 'Kafka replay 127.0.0.1:9092'
         report['replay'] = consume(root, group=f'radar-replay-{run_id}')
+        if report['replay']['consumed'] != events * 2:
+            raise AssertionError('El replay no recibió todos los mensajes publicados')
         report['replay_verification'] = verify(root, expected)
         report['passed'] = True
         report['phase'] = 'completed'

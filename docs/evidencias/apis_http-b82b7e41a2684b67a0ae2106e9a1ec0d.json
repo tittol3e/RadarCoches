@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "port": 8771,
+      "source": "demo_a",
+      "changes": 5,
+      "highwater": 13,
+      "http": true,
+      "passed": true,
+      "increments": [
+        {
+          "revision": 1,
+          "id": "DEMO-demo_a-000006",
+          "kind": "created"
+        },
+        {
+          "revision": 2,
+          "id": "DEMO-demo_a-000001",
+          "kind": "updated"
+        }
+      ]
+    },
+    {
+      "port": 8772,
+      "source": "demo_b",
+      "changes": 5,
+      "highwater": 14,
+      "http": true,
+      "passed": true,
+      "increments": [
+        {
+          "revision": 1,
+          "id": "DEMO-demo_b-000006",
+          "kind": "created"
+        },
+        {
+          "revision": 2,
+          "id": "DEMO-demo_b-000001",
+          "kind": "updated"
+        }
+      ]
+    }
+  ],
+  "isolated": true,
+  "dlt_executed": false,
+  "kafka_executed": false
+}

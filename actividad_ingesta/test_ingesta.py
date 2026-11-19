@@ -4,7 +4,7 @@ import unittest
 from contextlib import closing
 from pathlib import Path
 
-from ingesta import BASE, ejecutar
+from actividad_ingesta.ingesta import BASE, ejecutar
 
 
 class IngestaTest(unittest.TestCase):

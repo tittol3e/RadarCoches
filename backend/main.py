@@ -64,7 +64,9 @@ def create_app(data_dir=None, backups_dir=None):
     app=FastAPI(title='RadarCoches',version='0.1.0',docs_url=None,redoc_url=None)
     app.state.repo=repo
     from .lab_analytics import create_lab_analytics_router
+    from .lab_demo import create_demo_router
     app.include_router(create_lab_analytics_router(data_dir/'laboratorio'))
+    app.include_router(create_demo_router(data_dir, FRONTEND.parent/'docs'/'evidencias'/'distribuido'))
 
     @app.get('/api/docs',include_in_schema=False,response_class=HTMLResponse)
     def api_docs():

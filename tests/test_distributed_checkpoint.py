@@ -37,10 +37,17 @@ class CheckpointTest(unittest.TestCase):
                    side_effect=lambda root: order.append(('export', None)) or {}) as export:
             result = consume(self.root, export_every=4)
         self.assertEqual(result['consumed'], 10)
-        self.assertEqual([x[0] for x in order], ['export', 'commit', 'export', 'commit', 'export', 'commit', 'export'])
+        self.assertEqual([x[0] for x in order], ['export', 'commit', 'export', 'commit', 'export', 'commit'])
         self.assertEqual([x[1][('test', 0)] for x in order if x[0] == 'commit'], [4, 8, 10])
-        self.assertEqual(export.call_count, 4)
+        self.assertEqual(export.call_count, 3)
         self.consumer.close.assert_called_once_with(autocommit=False)
+
+    def test_exact_batch_reuses_committed_projection(self):
+        with patch('actividad_ingesta.pipeline.distributed.export_analytics',
+                   side_effect=[{'unique_ads': 5}, {'unique_ads': 10}]) as export:
+            result = consume(self.root, export_every=5)
+        self.assertEqual(result['analytics'], {'unique_ads': 10})
+        self.assertEqual(export.call_count, 2)
 
     def test_export_failure_does_not_ack_and_replay_is_idempotent(self):
         with patch('actividad_ingesta.pipeline.distributed.export_analytics', side_effect=OSError('disco')):

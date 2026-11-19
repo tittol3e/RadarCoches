@@ -1,0 +1,49 @@
+{
+  "passed": false,
+  "synthetic": true,
+  "mode": "distributed",
+  "root": "<perfil>\\Desktop\\RadarCoches-main\\data\\laboratorio_distribuido\\da46004a8b9745e19a81f343cfcffd34",
+  "steps": [
+    {
+      "label": "1000 iniciales"
+    }
+  ],
+  "scenario": "volume",
+  "phase": "1000 iniciales: dlt HTTP -> DuckDB",
+  "versions": {
+    "dlt": "1.32.0",
+    "duckdb": "1.5.6",
+    "kafka-python": "2.3.3"
+  },
+  "connections": {
+    "apis": {
+      "demo_a": "http://127.0.0.1:8771",
+      "demo_b": "http://127.0.0.1:8772"
+    },
+    "kafka": "127.0.0.1:9092"
+  },
+  "kafka": {
+    "throttle_time_ms": 0,
+    "brokers": [
+      {
+        "node_id": 1,
+        "host": "127.0.0.1",
+        "port": 9092,
+        "rack": null
+      }
+    ],
+    "cluster_id": "5L6g3nShT-eMCtK--X86sw",
+    "controller_id": 1,
+    "authorized_operations": [
+      "CREATE",
+      "ALTER",
+      "DESCRIBE",
+      "CLUSTER_ACTION",
+      "DESCRIBE_CONFIGS",
+      "ALTER_CONFIGS",
+      "IDEMPOTENT_WRITE"
+    ]
+  },
+  "error": "PipelineStepFailed: Pipeline execution failed at `step=extract` when processing package with `load_id=1795107038.5972695` with exception:\n\n<class 'PermissionError'>\n[WinError 5] Acceso denegado: '<perfil>\\\\Desktop\\\\RadarCoches-main\\\\data\\\\laboratorio_distribuido\\\\da46004a8b9745e19a81f343cfcffd34\\\\dlt_state\\\\radar_demo_b\\\\normalize\\\\9bc98ee1c98785f0\\\\8b8b14ced17c4eec' -> '<perfil>\\\\Desktop\\\\RadarCoches-main\\\\data\\\\laboratorio_distribuido\\\\da46004a8b9745e19a81f343cfcffd34\\\\dlt_state\\\\radar_demo_b\\\\normalize\\\\9bc98ee1c98785f0\\\\1795107038.5972695\\\\schema.json'",
+  "traceback": "Traceback (most recent call last):\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 524, in extract\n    extract_step.commit_packages()\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\extract\\extract.py\", line 709, in commit_packages\n    self.extract_storage.commit_new_load_package(\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\extract\\storage.py\", line 94, in commit_new_load_package\n    self.new_packages.save_schema(load_id, schema)\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\common\\storages\\load_package.py\", line 803, in save_schema\n    return self.storage.save(os.path.join(load_id, PackageStorage.SCHEMA_FILE_NAME), dump)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\common\\storages\\file_storage.py\", line 29, in save\n    return self.save_atomic(self.storage_path, relative_path, data, file_type=self.file_type)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\common\\storages\\file_storage.py\", line 40, in save_atomic\n    os.replace(tmp_path, dest_path)\nPermissionError: [WinError 5] Acceso denegado: '<perfil>\\\\Desktop\\\\RadarCoches-main\\\\data\\\\laboratorio_distribuido\\\\da46004a8b9745e19a81f343cfcffd34\\\\dlt_state\\\\radar_demo_b\\\\normalize\\\\9bc98ee1c98785f0\\\\8b8b14ced17c4eec' -> '<perfil>\\\\Desktop\\\\RadarCoches-main\\\\data\\\\laboratorio_distribuido\\\\da46004a8b9745e19a81f343cfcffd34\\\\dlt_state\\\\radar_demo_b\\\\normalize\\\\9bc98ee1c98785f0\\\\1795107038.5972695\\\\schema.json'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"<perfil>\\Desktop\\RadarCoches-main\\scripts\\run_distributed.py\", line 164, in main\n    cycle('1000 iniciales', 1000, 1000, 1000)\n  File \"<perfil>\\Desktop\\RadarCoches-main\\scripts\\run_distributed.py\", line 147, in cycle\n    step['extraction'] = dlt_extract(root, urls)\n                         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\actividad_ingesta\\pipeline\\distributed.py\", line 90, in dlt_extract\n    return _dlt_extract(root, urls)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\actividad_ingesta\\pipeline\\distributed.py\", line 129, in _dlt_extract\n    pipe.run(resource())\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 237, in _wrap\n    step_info = f(self, *args, **kwargs)\n                ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 285, in _wrap\n    return f(self, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 817, in run\n    self.extract(\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 237, in _wrap\n    step_info = f(self, *args, **kwargs)\n                ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 176, in _wrap\n    return f(self, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 190, in _wrap\n    rv = f(self, *args, **kwargs)\n         ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 285, in _wrap\n    return f(self, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<perfil>\\Desktop\\RadarCoches-main\\.venv\\Lib\\site-packages\\dlt\\pipeline\\pipeline.py\", line 531, in extract\n    raise PipelineStepFailed(\ndlt.pipeline.exceptions.PipelineStepFailed: Pipeline execution failed at `step=extract` when processing package with `load_id=1795107038.5972695` with exception:\n\n<class 'PermissionError'>\n[WinError 5] Acceso denegado: '<perfil>\\\\Desktop\\\\RadarCoches-main\\\\data\\\\laboratorio_distribuido\\\\da46004a8b9745e19a81f343cfcffd34\\\\dlt_state\\\\radar_demo_b\\\\normalize\\\\9bc98ee1c98785f0\\\\8b8b14ced17c4eec' -> '<perfil>\\\\Desktop\\\\RadarCoches-main\\\\data\\\\laboratorio_distribuido\\\\da46004a8b9745e19a81f343cfcffd34\\\\dlt_state\\\\radar_demo_b\\\\normalize\\\\9bc98ee1c98785f0\\\\1795107038.5972695\\\\schema.json'\n"
+}
